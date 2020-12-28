@@ -17,6 +17,8 @@ const Article = new mongoose.model("Article", articleSchema);
 
 const app = express();
 
+app.use(bodyParser.urlencoded({ extended: true }));
+
 app.get("/", function (req, res) {
   res.send("<h1>We are connected!</h1>");
 });
@@ -27,6 +29,21 @@ app.get("/articles", function (req, res) {
       res.send(err);
     } else {
       res.send(articles);
+    }
+  });
+});
+
+app.post("/articles", function (req, res) {
+  const newArticle = new Article({
+    title: req.body.title,
+    content: req.body.content,
+  });
+
+  newArticle.save(function (err) {
+    if (!err) {
+      res.send("Successfully uploaded article!");
+    } else {
+      res.send("Oops! Something went wrong...");
     }
   });
 });
