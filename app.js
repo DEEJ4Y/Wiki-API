@@ -23,6 +23,7 @@ app.get("/", function (req, res) {
   res.send("<h1>We are connected!</h1>");
 });
 
+// All articles
 app
   .route("/articles")
   .get(function (req, res) {
@@ -56,6 +57,35 @@ app
         res.send("Oops! Something went wrong...<br>" + err);
       }
     });
+  });
+
+// Specific articles
+app
+  .route("/articles/:specificArticle")
+  .get(function (req, res) {
+    specificArticle = req.params.specificArticle;
+    Article.findOne({ title: specificArticle }, function (err, foundArticle) {
+      if (!err) {
+        res.send(foundArticle);
+      } else {
+        res.send("Hmm...We couldn't find what you were looking for.");
+      }
+    });
+  })
+  .put(function (req, res) {
+    specificArticle = req.params.specificArticle;
+    Article.updateOne(
+      { title: specificArticle },
+      { title: req.body.title, content: req.body.content },
+      { overwrite: true },
+      function (err) {
+        if (!err) {
+          res.send("The article was successfully updated!");
+        } else {
+          res.send("Oops! Something went wrong...<br>" + err);
+        }
+      }
+    );
   });
 
 app.listen(3000, function () {
