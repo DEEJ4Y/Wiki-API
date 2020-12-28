@@ -100,6 +100,16 @@ app
         }
       }
     );
+  })
+  .delete(function (req, res) {
+    specificArticle = req.params.specificArticle;
+    Article.deleteOne({ title: specificArticle }, function (err) {
+      if (!err) {
+        res.send("The article was successfully deleted!");
+      } else {
+        res.send("Oops! Something went wrong...<br>" + err);
+      }
+    });
   });
 
 app.listen(3000, function () {
