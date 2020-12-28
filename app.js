@@ -43,7 +43,17 @@ app.post("/articles", function (req, res) {
     if (!err) {
       res.send("Successfully uploaded article!");
     } else {
-      res.send("Oops! Something went wrong...");
+      res.send("Oops! Something went wrong...<br>" + err);
+    }
+  });
+});
+
+app.delete("/articles", function (req, res) {
+  Article.deleteMany(function (err) {
+    if (!err) {
+      res.send("Successfully deleted all articles!");
+    } else {
+      res.send("Oops! Something went wrong...<br>" + err);
     }
   });
 });
