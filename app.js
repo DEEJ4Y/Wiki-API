@@ -86,6 +86,20 @@ app
         }
       }
     );
+  })
+  .patch(function (req, res) {
+    specificArticle = req.params.specificArticle;
+    Article.updateOne(
+      { title: specificArticle },
+      { $set: req.body },
+      function (err) {
+        if (!err) {
+          res.send("The article was successfully updated!");
+        } else {
+          res.send("Oops! Something went wrong...<br>" + err);
+        }
+      }
+    );
   });
 
 app.listen(3000, function () {
